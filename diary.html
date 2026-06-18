@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>一日日记</title>
+<link rel="stylesheet" href="styles.css">
+<script>
+(function(){
+  var h = new Date().getHours();
+  var auto = (h >= 8 && h < 20) ? 'day' : 'night';
+  var override = localStorage.getItem('diary_theme_override');
+  var expiry = parseInt(localStorage.getItem('diary_theme_override_expiry') || '0');
+  var theme = (override && Date.now() < expiry) ? override : auto;
+  document.documentElement.dataset.theme = theme;
+})();
+</script>
+</head>
+<body>
+
+<!-- Pull to refresh indicator -->
+<div class="pull-indicator" id="pullIndicator">
+  <div class="pull-spinner"></div>
+  <div class="pull-text" id="pullText">下拉刷新</div>
+</div>
+
+<header class="header">
+  <div class="header-top">
+    <button class="theme-toggle" id="themeToggle" title="切换主题">☾</button>
+    <button class="header-settings" title="同步设置">⚙</button>
+  </div>
+  <div class="header-nav">
+    <button class="header-arrow" id="prevDay">◀</button>
+    <div class="header-center">
+      <div class="header-date" id="headerDate"></div>
+      <div class="header-weekday" id="headerWeekday"></div>
+      <div class="header-today-badge" id="todayBadge" style="display:none">今天</div>
+      <div id="syncIndicator"></div>
+    </div>
+    <button class="header-arrow" id="nextDay">▶</button>
+  </div>
+  <div class="header-line"></div>
+</header>
+
+<main class="main">
+  <div class="cards-grid" id="cardsGrid"></div>
+</main>
+
+<div class="bottom-bar" id="bottomBar">
+  <button class="btn btn-merge" title="合并全部卡片">合并</button>
+  <button class="btn btn-add" id="addBtn" title="新增卡片">记一下</button>
+  <button class="btn btn-clear" title="清空全部">清空</button>
+</div>
+
+<script type="module" src="./js/main.js"></script>
+</body>
+</html>
